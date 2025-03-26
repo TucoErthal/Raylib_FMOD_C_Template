@@ -1,0 +1,2 @@
+gcc src/main.c -o dist/main.exe -std=c99 -O1 -Wall -mwindows -I include/ -L lib/ lib/fmod_vc.lib lib/fmodstudio_vc.lib -lraylib -lgdi32 -lwinmm
+Start-Process -FilePath dist/main.exe -WorkingDirectory dist/
