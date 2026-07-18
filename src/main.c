@@ -41,8 +41,13 @@ int main(void)
     while (!WindowShouldClose())
     {
         // FMOD Update
-        FMOD_Studio_System_Update(studioSystem);          
-
+        float bulletTimeParameter = GetMousePosition().y / GetScreenHeight();
+        float stateParameter = GetMousePosition().x / GetScreenWidth();
+        FMOD_Studio_EventInstance_SetParameterByName(musicEventInstance, "bulletTime", bulletTimeParameter, true);
+        FMOD_Studio_EventInstance_SetParameterByName(musicEventInstance, "state", stateParameter, true);
+        printf("bulletTime = %f\tstate = %f\n", bulletTimeParameter, stateParameter);
+        FMOD_Studio_System_Update(studioSystem);
+        
         BeginTextureMode(nativeScreen);
         {
             ClearBackground(BLACK);
