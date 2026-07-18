@@ -25,14 +25,13 @@ int main(void)
     FMOD_Studio_EventInstance_Start(musicEventInstance);
 
     // RAYLIB INIT
-    InitWindow(GetScreenWidth(), GetScreenHeight(), "Main");
+    SetConfigFlags(FLAG_BORDERLESS_WINDOWED_MODE);
+    InitWindow(0, 0, "Main");
     
     Image icon = LoadImage("assets/icon.png");
     SetWindowIcon(icon);
     UnloadImage(icon);
 
-    //SetTargetFPS(60);
-    ToggleFullscreen();
     
     const int nativeWidth = 256;
     const int nativeHeight = 192;
@@ -40,9 +39,12 @@ int main(void)
     
     while (!WindowShouldClose())
     {
+        int screenW = GetScreenWidth();
+        int screenH = GetScreenHeight();
+
         // FMOD Update
         float bulletTimeParameter = GetMousePosition().y / GetScreenHeight();
-        float stateParameter = GetMousePosition().x / GetScreenWidth();
+        float stateParameter = GetMousePosition().x / screenW;
         FMOD_Studio_EventInstance_SetParameterByName(musicEventInstance, "bulletTime", bulletTimeParameter, true);
         FMOD_Studio_EventInstance_SetParameterByName(musicEventInstance, "state", stateParameter, true);
         printf("bulletTime = %f\tstate = %f\n", bulletTimeParameter, stateParameter);
@@ -53,8 +55,8 @@ int main(void)
             ClearBackground(BLACK);
             DrawRectangle
             (
-                GetMousePosition().x * ((float) nativeWidth / GetScreenWidth()),
-                GetMousePosition().y * ((float) nativeHeight / GetScreenHeight()),
+                GetMousePosition().x * ((float) nativeWidth / screenW),
+                GetMousePosition().y * ((float) nativeHeight / screenH),
                 8, 8, WHITE
             );
         }
@@ -67,18 +69,13 @@ int main(void)
             (
                 nativeScreen.texture,
                 (Rectangle){ 0, 0, (float)nativeScreen.texture.width, -(float)nativeScreen.texture.height },  // Source rectangle with flipped height
-                (Rectangle){ 0, 0, GetScreenWidth(), GetScreenHeight() },  // Destination rectangle (full screen)
+                (Rectangle){ 0, 0, screenW, screenH },  // Destination rectangle (full screen)
                 (Vector2){ 0, 0 },
                 0.0f,
                 WHITE
             );
         }
         EndDrawing();
-
-        if (!IsWindowFocused())
-        {
-            MinimizeWindow();
-        }
     }
     
     CloseWindow();
