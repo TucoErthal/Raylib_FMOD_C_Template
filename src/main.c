@@ -33,8 +33,8 @@ int main(void)
     UnloadImage(icon);
 
     
-    const int nativeWidth = 256;
-    const int nativeHeight = 192;
+    const int nativeWidth = 640;
+    const int nativeHeight = 360;
     RenderTexture2D nativeScreen = LoadRenderTexture(nativeWidth, nativeHeight);
     
     while (!WindowShouldClose())
